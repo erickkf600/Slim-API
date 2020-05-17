@@ -12,12 +12,15 @@ class ResumeCompras extends Conexao {
         $stmt->bindParam('mes', $mes);
         $stmt->bindParam('ano', $ano);
         $stmt->execute();
-        $retorno = $stmt->fetchAll(\PDO::FETCH_COLUMN, 2);
+        $retorno = $stmt->fetchAll(\PDO::FETCH_OBJ);
         for ($i=0; $i < count($retorno); $i++) { 
-            $somar = $this->pdo->query("SELECT SUM(valor) FROM compra WHERE usuario = '$retorno[$i]' AND mes = '$mes' and ano = '$ano'");
+            $user =  $retorno[$i] -> usuario;
+            $dt_pg =  $retorno[$i] -> dt_pagamento;
+            $pago = $retorno[$i] -> pago;
+            $somar = $this->pdo->query("SELECT SUM(valor) FROM compra WHERE usuario = '$user' AND mes = '$mes' and ano = '$ano'");
             $resultado = $somar->fetchColumn();
             $valor = number_format($resultado, 2, ',', '.');
-            $resume[] = ["nome" =>  $retorno[$i], "valor" => $valor];
+            $resume[] = ["nome" =>   $user, "valor" => $valor, "dt_pg" => $dt_pg, "pago" => $pago];
         }
         return $resume;        
     }

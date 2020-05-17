@@ -9,6 +9,7 @@ $app = new \Slim\App(slimConfiguration());
 $app->post('/login', AuthController::class . ':login');
 $app->get('/compras', ComprasController::class.':getAllByUser');
 $app->get('/compras/resume', ComprasController::class.':getResume');
+$app->get('/compras/card', ComprasController::class.':getAllByCard');
 // =========================================
 $app->group('', function() use ($app) {
     $app->post('/compras', ComprasController::class.':insertCompra');

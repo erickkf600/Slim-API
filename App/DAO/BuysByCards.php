@@ -3,16 +3,15 @@
 namespace App\DAO;
 
 use App\Models\ComprasModel;
-use App\Models\UsuarioModel;
 
-class ComprasDAO extends Conexao {
+class BuysByCards extends Conexao {
     public function __construct() {
         parent::__construct();
     }
-     public function getAllByUser(string $mes, int $ano, string $user) {
-        $stmt = $this->pdo->prepare("SELECT * FROM compra WHERE mes = :mes AND usuario = :user AND ano = :ano ORDER BY id ASC");
+     public function getAllByCard(string $mes, int $ano, string $card) {
+        $stmt = $this->pdo->prepare("SELECT * FROM compra WHERE mes = :mes AND cartao = :cartao AND ano = :ano ORDER BY id ASC");
         $stmt->bindParam('mes', $mes);
-        $stmt->bindParam('user', $user);
+        $stmt->bindParam('cartao', $card);
         $stmt->bindParam('ano', $ano);
         $stmt->execute();
         $retorno = $stmt->fetchAll(\PDO::FETCH_OBJ);
