@@ -13,6 +13,9 @@ class ResumeCompras extends Conexao {
         $stmt->bindParam('ano', $ano);
         $stmt->execute();
         $retorno = $stmt->fetchAll(\PDO::FETCH_OBJ);
+
+        if(count($retorno) === 0)
+            return []; 
         for ($i=0; $i < count($retorno); $i++) { 
             $user =  $retorno[$i] -> usuario;
             $dt_pg =  $retorno[$i] -> dt_pagamento;
@@ -23,5 +26,6 @@ class ResumeCompras extends Conexao {
             $resume[] = ["nome" =>   $user, "valor" => $valor, "dt_pg" => $dt_pg, "pago" => $pago];
         }
         return $resume;        
+       
     }
 }
